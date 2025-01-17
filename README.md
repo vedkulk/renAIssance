@@ -1,1 +1,1 @@
-# renAIssance
+# renAIssance hackathon
