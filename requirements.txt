@@ -1,0 +1,21 @@
+# Backend Framework
+flask==2.3.2               # Backend framework to serve API endpoints for React
+flask-cors==3.0.10         # To enable CORS for React-Backend communication
+
+# API Integration (WorqHat LLM)
+requests==2.31.0           # For API calls to WorqHat LLM
+
+# Translation and NLP
+langdetect==1.0.9          # Language detection for scoring
+
+# User Data and Certificates
+pandas  
+reportlab==4.2.5       # For generating PDF certificates
+
+# Speech Recognition and Text-to-Speech (Optional)
+SpeechRecognition==3.8.1   # For voice input handling
+gTTS==2.3.1                # Google Text-to-Speech for audio responses
+pyttsx3==2.90              # Alternative Text-to-Speech library
+
+# Environment Management
+python-dotenv==1.0.0       # For securely managing API keys
