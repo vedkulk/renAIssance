@@ -33,6 +33,6 @@ Image Generation: Integration with an Gemini-powered image generation API
 Translation: Integration with a WorqHat translation API
 
 How to run the project:
- 1: Setup venv in backend directory
+ 1: Setup venv in backend directory on one terminal
  2: Start backend by python server.py
- 3: Start frontend by running npm run dev in the terminal
+ 3: Start frontend by running npm run dev in another terminal
