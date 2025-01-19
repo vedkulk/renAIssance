@@ -8,19 +8,27 @@ import pyttsx3
 import google.generativeai as genai
 from datetime import datetime
 from google.cloud import translate_v2 as google_translate
+import google.generativeai as genai
+from werkzeug.exceptions import BadRequest
 
-# Load environment variables
+
+
 load_dotenv()
-
-WORQHAT_API_KEY = os.getenv("WORQHAT_API_KEY")
-
 app = Flask(__name__)
-
-# Enable CORS for the entire app
 CORS(app, origins=["http://localhost:5173"], methods=["GET", "POST", "OPTIONS"], supports_credentials=True)
 
-os.environ["GEMINI_API_KEY"] = "AIzaSyAHqnVJz1wt68y4gavOVqtQmHbFcVVK194"  
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+# Fetch the API keys from environment variables
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+WORQHAT_API_KEY = os.getenv("WORQHAT_API_KEY")
+
+# Check if the keys are loaded
+if GEMINI_API_KEY is None:
+    raise ValueError("GEMINI_API_KEY not found in environment variables")
+if WORQHAT_API_KEY is None:
+    raise ValueError("WORQHAT_API_KEY not found in environment variables")
+
+# Configure Gemini API
+genai.configure(api_key=GEMINI_API_KEY)
 
 # Initialize the generative model (only once for the whole app)
 generation_config = {
@@ -74,6 +82,63 @@ def get_greeting():
         return "Good afternoon!"
     else:
         return "Good evening!"
+
+def generate_image_from_text(input_text):
+    """
+    Generate a realistic square image from the input text using WorqHat's Image Generation API v3.
+
+    Args:
+        input_text (str): Text prompt for generating an image.
+
+    Returns:
+        str: Image URL or an error message.
+    """
+    if not WORQHAT_API_KEY:
+        return "Error: API key not found. Please check your .env file."
+
+    try:
+        url = "https://api.worqhat.com/api/ai/images/generate/v3"
+        payload = {
+            "prompt": [input_text],
+            "image_style": "Realistic",
+            "orientation": "Square",
+            "output_type": "url"
+        }
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {WORQHAT_API_KEY}'
+        }
+        response = requests.post(url, headers=headers, json=payload)
+        if response.status_code == 200:
+            response_data = response.json()
+            if 'images' in response_data and len(response_data['images']) > 0:
+                return response_data['images'][0]  # Return the first image URL
+            else:
+                return f"Image URL found in response: {response_data}"
+           
+        else:
+            error_data = response.json()
+            return f"API Error: {error_data.get('message', response.text)}"
+    except Exception as e:
+        return f"An unexpected error occurred: {e}"
+
+@app.route('/generate-image', methods=['POST'])
+def generate_image():
+    """Endpoint for generating an image based on text."""
+    try:
+        data = request.json
+        input_text = data.get('input_text')
+        
+        if not input_text:
+            raise BadRequest("Missing input text")
+        
+        # Generate the image URL
+        image_url = generate_image_from_text(input_text)
+        
+        return jsonify({"image_url": image_url})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/generate-story", methods=["POST"])
 def generate_story():
@@ -208,6 +273,7 @@ def translate_text(input_text, target_language, model_name="aicon-v4-nano-160824
 
 @app.route('/translate', methods=['POST'])
 def translate():
+    """Endpoint for translation."""
     data = request.get_json()
     input_text = data.get('input_text')
     target_language = data.get('target_language')
@@ -215,6 +281,7 @@ def translate():
     if not input_text or not target_language:
         return jsonify({"error": "Missing input text or target language"}), 400
     
+    # Translate using WorqHat API
     translated_text = translate_text(input_text, target_language)
     
     return jsonify({"translated_text": translated_text})
