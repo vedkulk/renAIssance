@@ -7,11 +7,11 @@ const Header = () => {
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-900">
             <a href='/'>
-          Speech Recognition App
+            Linguanova
             </a>
           </h1>
           <nav className="ml-8">
-            <ul className="flex items-center gap-8">
+            <ul className="flex items-center gap-12">
               <li>
                 <a href="/story-mode" className="text-lg font-medium text-blue-500 hover:text-blue-900">Story Mode</a>
               </li>
