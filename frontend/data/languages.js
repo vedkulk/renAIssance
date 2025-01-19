@@ -1,0 +1,38 @@
+const languages = [
+      { "code": "hindi", "name": "Hindi" },
+      { "code": "french", "name": "French" },
+      { "code": "spanish", "name": "Spanish" },
+      { "code": "german", "name": "German" },
+      { "code": "italian", "name": "Italian" },
+      { "code": "portuguese", "name": "Portuguese" },
+      { "code": "swahili", "name": "Swahili" },
+      { "code": "amharic", "name": "Amharic" },
+      { "code": "hausa", "name": "Hausa" },
+      { "code": "zulu", "name": "Zulu" },
+      { "code": "xhosa", "name": "Xhosa" },
+      { "code": "mandarin", "name": "Mandarin Chinese" },
+      { "code": "bengali", "name": "Bengali" },
+      { "code": "japanese", "name": "Japanese" },
+      { "code": "korean", "name": "Korean" },
+      { "code": "thai", "name": "Thai" },
+      { "code": "vietnamese", "name": "Vietnamese" },
+      { "code": "turkish", "name": "Turkish" },
+      { "code": "dutch", "name": "Dutch" },
+      { "code": "russian", "name": "Russian" },
+      { "code": "polish", "name": "Polish" },
+      { "code": "swedish", "name": "Swedish"},
+      {"code":"farsi","name":"Farsi (Persian)"},
+      {"code":"hebrew","name":"Hebrew"},
+      {"code":"maori","name":"Maori"},
+      {"code":"quechua","name":"Quechua"},
+      {"code":"navajo","name":"Navajo"},
+      {"code":"basque","name":"Basque"},
+      {"code":"samoan","name":"Samoan"},
+      {"code":"tongan","name":"Tongan"},
+      {"code":"malay","name":"Malay/Indonesian"},
+      {"code":"tamil","name":"Tamil"},
+      {"code":"telugu","name":"Telugu"}
+];
+
+export default languages
+  

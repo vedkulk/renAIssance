@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const SpeechRecognition = () => {
+const SpeechRecognition = ({ onEvaluate }) => {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [recognition, setRecognition] = useState(null);
@@ -46,6 +46,10 @@ const SpeechRecognition = () => {
     if (recognition) {
       recognition.stop();
     }
+  };
+
+  const handleEvaluate = () => {
+    onEvaluate(transcript);
   };
 
   return (
@@ -97,9 +101,12 @@ const SpeechRecognition = () => {
           </div>
         </div>
         
-      <button className='px-4 py-2 rounded-md text-xl bg-blue-400 hover:bg-blue-600 text-white'>
+        <button
+          onClick={handleEvaluate}
+          className='px-4 py-2 rounded-md text-xl bg-blue-400 hover:bg-blue-600 text-white'
+        >
           Evaluate
-      </button>
+        </button>
       </div>
     </div>
   );
